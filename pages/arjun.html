@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f9;
+      margin: 0;
+      padding: 40px 20px;
+    }
+    .back {
+      display: block;
+      max-width: 580px;
+      margin: 0 auto 24px;
+      color: #4f46e5;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .back:hover { text-decoration: underline; }
+    .card {
+      background: white;
+      border-radius: 16px;
+      max-width: 580px;
+      margin: 0 auto;
+      padding: 40px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      border-top: 6px solid var(--color, #4f46e5);
+    }
+    .top { display: flex; align-items: center; gap: 20px; margin-bottom: 28px; }
+    .emoji    { font-size: 64px; }
+    .name     { font-size: 26px; font-weight: bold; color: #1a1a2e; margin-bottom: 4px; }
+    .role     { font-size: 15px; font-weight: bold; color: var(--color, #4f46e5); margin-bottom: 4px; }
+    .location { font-size: 13px; color: #999; }
+    .label    { font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: #aaa; margin: 24px 0 8px; }
+    .bio      { color: #444; line-height: 1.7; font-size: 15px; }
+    .email a  { color: var(--color, #4f46e5); text-decoration: none; font-size: 15px; }
+    .skills   { display: flex; flex-wrap: wrap; gap: 8px; }
+    .skill    { background: #f0f0f8; color: #333; border-radius: 100px; padding: 5px 14px; font-size: 13px; font-weight: bold; }
+    .error    { text-align: center; color: red; padding: 40px; }
+  </style>
+</head>
+<body>
+
+  <a class="back" href="../index.html">← Back to Team</a>
+  <div id="profile"></div>
+
+  <script>
+    // ============================================================
+    // SAME DATA AS index.html — keep both in sync when you edit.
+    // When you add a new person, add them here AND in index.html.
+    // ============================================================
+    const TEAM = [
+      {
+        "id":       "arjun",
+        "name":     "Arjun Sharma",
+        "role":     "Frontend Developer",
+        "emoji":    "👨‍💻",
+        "location": "Hyderabad, India",
+        "email":    "arjun@example.com",
+        "bio":      "Arjun loves building clean user interfaces and has 3 years of experience with HTML, CSS and JavaScript.",
+        "skills":   ["HTML", "CSS", "JavaScript", "React"],
+        "color":    "#4f46e5"
+      },
+      {
+        "id":       "priya",
+        "name":     "Priya Nair",
+        "role":     "UI Designer",
+        "emoji":    "👩‍🎨",
+        "location": "Bangalore, India",
+        "email":    "priya@example.com",
+        "bio":      "Priya creates beautiful and intuitive designs. She believes good design should be invisible and just work.",
+        "skills":   ["Figma", "Illustrator", "Prototyping", "User Research"],
+        "color":    "#db2777"
+      },
+      {
+        "id":       "ravi",
+        "name":     "Ravi Kumar",
+        "role":     "Backend Developer",
+        "emoji":    "🧑‍🔧",
+        "location": "Chennai, India",
+        "email":    "ravi@example.com",
+        "bio":      "Ravi builds the engines that power applications. He specialises in databases and server-side logic.",
+        "skills":   ["Python", "Node.js", "PostgreSQL", "AWS"],
+        "color":    "#059669"
+      }
+    ];
+
+    // Figure out which person this page is for by reading the filename
+    // e.g. priya.html → look for id "priya" in the TEAM array above
+    const filename = window.location.pathname.split('/').pop();
+    const myId     = filename.replace('.html', '');
+    const person   = TEAM.find(m => m.id === myId);
+
+    if (!person) {
+      document.getElementById('profile').innerHTML =
+        '<div class="error">Person "' + myId + '" not found. Did you add them to the TEAM array?</div>';
+    } else {
+      document.title = person.name + ' – Profile';
+      document.getElementById('profile').innerHTML = `
+        <div class="card" style="--color:${person.color}">
+          <div class="top">
+            <div class="emoji">${person.emoji}</div>
+            <div>
+              <div class="name">${person.name}</div>
+              <div class="role">${person.role}</div>
+              <div class="location">📍 ${person.location}</div>
+            </div>
+          </div>
+          <div class="label">About</div>
+          <div class="bio">${person.bio}</div>
+          <div class="label">Email</div>
+          <div class="email"><a href="mailto:${person.email}">${person.email}</a></div>
+          <div class="label">Skills</div>
+          <div class="skills">${person.skills.map(s => `<span class="skill">${s}</span>`).join('')}</div>
+        </div>
+      `;
+    }
+  </script>
+
+</body>
+</html>
